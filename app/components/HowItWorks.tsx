@@ -10,51 +10,99 @@ export function HowItWorks() {
   const stepsRef = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
-    if (stepsRef.current.length > 0) {
-      // Animate each card from different directions with creative effects
-      gsap.from(stepsRef.current[0], {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 70%",
-        },
-        x: -300,
-        y: 100,
-        rotation: -15,
-        opacity: 0,
-        scale: 0.5,
-        duration: 1.2,
-        ease: "back.out(1.7)",
-      });
+    const mm = gsap.matchMedia();
+    const ctx = gsap.context(() => {
+      if (stepsRef.current.length > 0) {
+        // Set perspective for 3D effect
+        gsap.set(sectionRef.current, { perspective: 1000 });
 
-      gsap.from(stepsRef.current[1], {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 70%",
-        },
-        y: -150,
-        opacity: 0,
-        scale: 0.3,
-        duration: 1.4,
-        delay: 0.2,
-        ease: "elastic.out(1, 0.6)",
-      });
+        // Initial state: 3D positioning
+        gsap.set(stepsRef.current, { 
+          x: 400, 
+          opacity: 0,
+          scale: 0.5,
+          rotationY: 60,
+          rotationX: 30,
+          filter: "blur(10px)"
+        });
 
-      gsap.from(stepsRef.current[2], {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 70%",
-        },
-        x: 300,
-        y: 100,
-        rotation: 15,
-        opacity: 0,
-        scale: 0.5,
-        duration: 1.2,
-        delay: 0.4,
-        ease: "back.out(1.7)",
-      });
-    }
+        mm.add("(min-width: 768px)", () => {
+          // DESKTOP: Reverse Order (3 -> 2 -> 1)
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 10px", 
+              end: "+=1500", 
+              pin: true, 
+              scrub: 1, 
+              toggleActions: "play none none reverse",
+            },
+          });
+
+          tl.to(stepsRef.current[2], {
+            x: 0, opacity: 1, scale: 1, rotationY: 0, rotationX: 0, filter: "blur(0px)", duration: 1, ease: "back.out(1.5)",
+          })
+          .to(stepsRef.current[1], {
+            x: 0, opacity: 1, scale: 1, rotationY: 0, rotationX: 0, filter: "blur(0px)", duration: 1, ease: "back.out(1.5)",
+          }, "-=0.2") 
+          .to(stepsRef.current[0], {
+            x: 0, opacity: 1, scale: 1, rotationY: 0, rotationX: 0, filter: "blur(0px)", duration: 1, ease: "back.out(1.5)",
+          }, "-=0.2");
+        });
+
+        mm.add("(max-width: 767px)", () => {
+          // MOBILE: Normal Order (1 -> 2 -> 3)
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 10px", 
+              end: "+=1500", 
+              pin: true, 
+              scrub: 1, 
+              toggleActions: "play none none reverse",
+            },
+          });
+
+          tl.to(stepsRef.current[0], {
+            x: 0, opacity: 1, scale: 1, rotationY: 0, rotationX: 0, filter: "blur(0px)", duration: 1, ease: "back.out(1.5)",
+          })
+          .to(stepsRef.current[1], {
+            x: 0, opacity: 1, scale: 1, rotationY: 0, rotationX: 0, filter: "blur(0px)", duration: 1, ease: "back.out(1.5)",
+          }, "-=0.2") 
+          .to(stepsRef.current[2], {
+            x: 0, opacity: 1, scale: 1, rotationY: 0, rotationX: 0, filter: "blur(0px)", duration: 1, ease: "back.out(1.5)",
+          }, "-=0.2");
+        });
+      }
+    }, sectionRef);
+
+    return () => {
+      ctx.revert();
+      mm.revert();
+    };
   }, []);
+
+  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    gsap.to(e.currentTarget, {
+      scale: 1.05,
+      y: -10,
+      borderColor: "#d05b21",
+      boxShadow: "0 20px 30px -10px rgba(208, 91, 33, 0.3)",
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    gsap.to(e.currentTarget, {
+      scale: 1,
+      y: 0,
+      borderColor: "rgba(208, 91, 33, 0.2)",
+      boxShadow: "none",
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  };
 
   return (
     <section
@@ -70,7 +118,9 @@ export function HowItWorks() {
           {/* Step 1 */}
           <div
             ref={(el) => { if (el) stepsRef.current[0] = el; }}
-            className="flex flex-col items-center text-center p-8 rounded-2xl bg-secondary border border-accent/20 hover:border-accent hover:shadow-xl hover:shadow-accent/20 transition-all duration-300"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className="flex flex-col items-center text-center p-8 rounded-2xl bg-secondary border border-accent/20 cursor-pointer"
           >
             <div className="w-20 h-20 mb-6 rounded-full bg-accent flex items-center justify-center">
               <svg
@@ -98,7 +148,9 @@ export function HowItWorks() {
           {/* Step 2 */}
           <div
             ref={(el) => { if (el) stepsRef.current[1] = el; }}
-            className="flex flex-col items-center text-center p-8 rounded-2xl bg-secondary border border-accent/20 hover:border-accent hover:shadow-xl hover:shadow-accent/20 transition-all duration-300"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className="flex flex-col items-center text-center p-8 rounded-2xl bg-secondary border border-accent/20 cursor-pointer"
           >
             <div className="w-20 h-20 mb-6 rounded-full bg-accent flex items-center justify-center">
               <svg
@@ -126,7 +178,9 @@ export function HowItWorks() {
           {/* Step 3 */}
           <div
             ref={(el) => { if (el) stepsRef.current[2] = el; }}
-            className="flex flex-col items-center text-center p-8 rounded-2xl bg-secondary border border-accent/20 hover:border-accent hover:shadow-xl hover:shadow-accent/20 transition-all duration-300"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className="flex flex-col items-center text-center p-8 rounded-2xl bg-secondary border border-accent/20 cursor-pointer"
           >
             <div className="w-20 h-20 mb-6 rounded-full bg-accent flex items-center justify-center">
               <svg

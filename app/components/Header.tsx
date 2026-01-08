@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { ThemeToggle } from "./ThemeToggle";
 import { LanguageToggle } from "./LanguageToggle";
+import { useTheme } from "../contexts/ThemeContext";
 
 export function Header() {
+  const { theme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -26,7 +28,7 @@ export function Header() {
         {/* Logo on the left */}
         <div className="flex-shrink-0">
           <img 
-            src="/logo.svg?v=3" 
+            src={theme === 'dark' ? "/logo-dark.svg?v=1" : "/logo.svg?v=3"}
             alt="GoSavanna Logo" 
             className="h-12 md:h-16 w-auto drop-shadow-lg"
           />
