@@ -99,7 +99,7 @@ export function Hero() {
 
         <button
           ref={ctaRef}
-          className="btn-accent px-10 py-4 rounded-full text-lg md:text-xl font-bold shadow-2xl hover:shadow-accent/50"
+          className="btn-accent px-10 py-4 rounded-full text-lg md:text-xl font-bold shadow-2xl hover:shadow-accent/50 transition-all duration-300 hover:scale-105"
         >
           <Trans id="hero.cta" />
         </button>
