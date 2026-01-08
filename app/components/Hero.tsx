@@ -14,59 +14,58 @@ export function Hero() {
   const ctaRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    // Set initial state - all elements hidden
-    gsap.set([titleRef.current, subtitleRef.current, ctaRef.current], {
-      opacity: 0,
-    });
-    gsap.set(ctaRef.current, {
-      scale: 0.8,
-    });
+    const ctx = gsap.context(() => {
+      // Set initial state
+      gsap.set([titleRef.current, subtitleRef.current, ctaRef.current], {
+        opacity: 0,
+      });
+      gsap.set(ctaRef.current, {
+        scale: 0.8,
+      });
 
-    const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
+      const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-    // 1. Title appears
-    timeline.to(titleRef.current, {
-      opacity: 1,
-      y: 0,
-      duration: 1.2,
-      delay: 0.3,
-    });
-
-    // 2. Subtitle appears (overlapping with title)
-    timeline.to(
-      subtitleRef.current,
-      {
+      // 1. Title appears
+      timeline.to(titleRef.current, {
         opacity: 1,
         y: 0,
-        duration: 1,
-      },
-      "-=0.6"
-    );
+        duration: 1.2,
+        delay: 0.3,
+      });
 
-    // 3. Button appears AFTER subtitle (no overlap)
-    timeline.to(ctaRef.current, {
-      opacity: 1,
-      scale: 1,
-      duration: 0.8,
-    });
+      // 2. Subtitle appears (overlapping with title)
+      timeline.to(
+        subtitleRef.current,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+        },
+        "-=0.6"
+      );
 
-    // Scroll effect: hero slides up and fades out
-    gsap.to(heroRef.current, {
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: 1,
-      },
-      y: -200,
-      opacity: 0,
-      ease: "none",
-    });
+      // 3. Button appears AFTER subtitle (no overlap)
+      timeline.to(ctaRef.current, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.8,
+      });
 
-    return () => {
-      timeline.kill();
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
+      // Scroll effect: hero slides up and fades out
+      gsap.to(heroRef.current, {
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        },
+        y: -200,
+        opacity: 0,
+        ease: "none",
+      });
+    }, heroRef); // Scope to heroRef
+
+    return () => ctx.revert(); // Cleanup
   }, []);
 
   return (

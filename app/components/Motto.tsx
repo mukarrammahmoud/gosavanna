@@ -6,24 +6,29 @@ import { Trans } from "@lingui/react";
 gsap.registerPlugin(ScrollTrigger);
 
 export function Motto() {
+  const sectionRef = useRef<HTMLElement>(null);
   const mottoRef = useRef<HTMLQuoteElement>(null);
 
-
   useEffect(() => {
-    gsap.from(mottoRef.current, {
-      scrollTrigger: {
-        trigger: mottoRef.current,
-        start: "top 80%",
-      },
-      opacity: 0,
-      scale: 0.9,
-      duration: 1.5,
-      ease: "power3.out",
-    });
+    const ctx = gsap.context(() => {
+      gsap.from(mottoRef.current, {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+          toggleActions: "play reverse play reverse",
+        },
+        scale: 0.8,
+        opacity: 0,
+        duration: 1.5,
+        ease: "power4.out",
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
   }, []);
 
   return (
-    <section className="py-20 md:py-32 px-6 md:px-12 bg-primary">
+    <section ref={sectionRef} className="py-20 md:py-32 px-6 md:px-12 bg-primary">
       <div className="container mx-auto max-w-4xl text-center">
         <blockquote
           ref={mottoRef}
