@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-01-08 21:10+0300\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#. js-lingui-explicit-id
+#: app/components/Problem.tsx:31
+msgid "problem.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: app/components/Problem.tsx:34
+msgid "problem.text"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: app/components/Motto.tsx:32
+msgid "motto.text"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: app/components/HowItWorks.tsx:35
+msgid "how.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: app/components/HowItWorks.tsx:60
+msgid "how.step1.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: app/components/HowItWorks.tsx:63
+msgid "how.step1.desc"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: app/components/HowItWorks.tsx:88
+msgid "how.step2.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: app/components/HowItWorks.tsx:91
+msgid "how.step2.desc"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: app/components/HowItWorks.tsx:116
+msgid "how.step3.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: app/components/HowItWorks.tsx:119
+msgid "how.step3.desc"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: app/components/Hero.tsx:64
+msgid "hero.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: app/components/Hero.tsx:71
+msgid "hero.subtitle"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: app/components/Hero.tsx:78
+msgid "hero.cta"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: app/components/Footer.tsx:9
+msgid "footer.copyright"
+msgstr ""
